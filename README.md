@@ -1,4 +1,8 @@
-# BACKEND AGROWIN
+# 🌱 BACKEND AGROWIN – Flask + Supabase
+
+RESTful API untuk aplikasi **AGROWIN**, mendukung petani dan konsumen Indonesia dengan fitur **AI, e-commerce, edukasi, rekomendasi waktu tanam dan kalkulator panen**.
+
+---
 
 ## Install
 
