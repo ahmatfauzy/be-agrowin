@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from utils.db import supabase
 from utils.middleware import login_required
+from utils.cloudinary import upload_to_cloudinary
 
 ecommerce_bp = Blueprint('ecommerce', __name__)
 
@@ -12,12 +13,20 @@ def list_products():
 @ecommerce_bp.route('/sell', methods=['POST'])
 @login_required
 def add_product():
-    data = request.json
+    # 1. upload gambar ke Cloudinary
+    file = request.files.get('image')
+    if not file:
+        return jsonify({"error": "image required"}), 400
+    upload_res = upload_to_cloudinary(file, folder="products")
+
+    # 2. simpan URL ke Supabase
+    data = request.form.to_dict()
     supabase.table("products").insert({
         "user_id": request.user["user_id"],
         "name": data["name"],
-        "price": data["price"],
+        "price": int(data["price"]),
         "description": data["description"],
-        "image_url": data["image_url"]
+        "image_url": upload_res["url"]
     }).execute()
-    return jsonify({"message": "Product added"})
+
+    return jsonify({"message": "Product added", "image_url": upload_res["url"]}), 201
