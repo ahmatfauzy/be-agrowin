@@ -11,6 +11,9 @@ from routes.ecommerce import ecommerce_bp
 from routes.education import education_bp
 from routes.harvest_calculator import harvest_bp
 from utils.middleware import login_required
+import os
+print("Model file:", os.getenv("LOCAL_MODEL"))
+
 
 
 app = Flask(__name__)
