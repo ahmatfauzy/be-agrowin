@@ -9,6 +9,7 @@ venv/
 instance/
 *.pid
 *.log
+*.h5
 .idea/
 .vscode/
 
